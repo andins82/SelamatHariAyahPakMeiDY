@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Hari Bapakk</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*{box-sizing:border-box}
+
+body {
+    margin:0;
+    font-family: 'Press Start 2P', cursive;
+    background: #87CEEB; /* Langit */
+    overflow:hidden;
+}
+
+.page {
+    display:none;
+    width:100vw;
+    height:100vh;
+    position:relative;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.active{display:flex}
+
+/* === PIXEL BACKGROUND === */
+.sky{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(#87CEEB,#ccf3ff);
+    z-index:-5;
+}
+
+.cloud{
+    position:absolute;
+    font-size:40px;
+    animation:cloud 60s linear infinite;
+}
+@keyframes cloud{
+    from{left:-200px;}
+    to{left:110%;}
+}
+
+.ground{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:35%;
+    background:#4CAF50;
+}
+
+.school{
+    position:absolute;
+    bottom:35%;
+    left:50%;
+    transform:translateX(-50%);
+    width:160px;
+    height:120px;
+    background:#c0392b;
+    border:5px solid #333;
+}
+
+.tree{position:absolute;bottom:35%;font-size:50px;}
+.flower{position:absolute;bottom:35%;font-size:28px;}
+
+/* === START PAGE === */
+h1{
+    font-size:16px;
+    background:#333;
+    color:white;
+    padding:20px;
+    border:4px solid white;
+    text-align:center;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    font-family:inherit;
+    cursor:pointer;
+    border:3px solid black;
+    background: #FFD700; /* Warna retro */
+}
+
+/* === MENU === */
+.menu-btn{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#333;
+    color:white;
+    border:4px solid white;
+    margin:15px;
+    font-size:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+/* === OVERLAY === */
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+.overlay.active{display:flex;}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:18px;
+    cursor:pointer;
+    color:white;
+}
+
+/* === KTP === */
+.ktp{
+    background:#faf3dd;
+    padding:18px;
+    width:90%;
+    max-width:400px;
+    border:6px solid #333;
+    position:relative;
+    font-size:9px;
+}
+
+.ktp img{
+    width:80px;
+    height:100px;
+    object-fit:cover;
+    border:3px solid black;
+}
+
+/* === SURAT === */
+.letter{
+    background:#fff;
+    padding:15px;
+    width:90%;
+    max-width:430px;
+    border:6px solid #333;
+    font-size:8px;
+    line-height:1.6;
+    height:70vh;
+    overflow-y:auto;
+}
+
+/* === GAME === */
+#gameContent{
+    text-align:center;
+    background:white; /* Background kontainer game */
+    padding: 20px;
+    border: 5px solid black;
+    max-width: 420px;
+    width: 90%;
+    position: relative;
+}
+
+#gameBox{
+    width: 100%;
+    height: 300px;
+    border: 5px solid #4CAF50; /* Border rumput */
+    background: #8BC34A; /* Background rumput */
+    position:relative;
+    overflow:hidden;
+    margin-top:10px;
+    display: none; /* Sembunyikan saat belum mulai */
+}
+
+.kapi{
+    position:absolute;
+    font-size:22px; /* Ukuran Kapibara */
+    cursor:pointer;
+    padding: 5px;
+    transition: transform 1.5s ease-in-out; /* Untuk efek pergerakan halus */
+    /* Membuat Kapibara tidak terpotong saat di sudut */
+    transform-origin: top left;
+}
+
+/* Teks pujian yang bergerak bebas */
+.kapi.text{
+    font-size: 10px; /* Sedikit lebih besar agar lebih terbaca */
+    color: white;
+    background: #333;
+    border-radius: 5px;
+    padding: 5px;
+    white-space: nowrap;
+    cursor: default;
+    
+    /* --- PERBAIKAN UTAMA AGAR TULISAN TIDAK TERPOTONG --- */
+    width: max-content; 
+    height: auto;
+    
+    /* Hentikan transisi pada teks */
+    transition: none; 
+}
+
+#gameMenu{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" src="musik.mp3" loop></audio>
+<audio id="yummy" src="https://cdn.pixabay.com/audio/2021/08/04/audio_8c84edb2bf.mp3"></audio>
+
+<div class="sky"></div>
+<div class="cloud" style="top:15%;animation-duration:50s;">☁️</div>
+<div class="cloud" style="top:40%;animation-duration:70s;">☁️</div>
+<div class="ground"></div>
+<div class="school"></div>
+<div class="tree" style="left:10%">🌳</div>
+<div class="tree" style="right:10%">🌲</div>
+<div class="flower" style="left:30%">🌼</div>
+<div class="flower" style="left:70%">🌻</div>
+
+<div id="startPage" class="page active">
+    <h1>SELAMAT HARI AYAH<brBAPAKK</h1>
+    <button onclick="goMenu()">START</button>
+</div>
+
+<div id="menuPage" class="page">
+    <div class="menu-btn" onclick="showKtp()">🎫</div>
+    <div class="menu-btn" onclick="showLetter()">✉️</div>
+    <div class="menu-btn" onclick="showGame()">🎮</div>
+</div>
+
+<div id="ktp" class="overlay">
+    <div class="ktp">
+        <div class="close" onclick="closeAll()">❌</div>
+        <h3>Kartu Identitas</h3>
+        <img src="pak mei.jpg">
+        <p>Nama : Bapak Mei DY</p>
+        <p>Hobi : Mancing (perkoro), Madang, Bobo, Ndongeng</p>
+        <p>Bapak dari : princess Andin & Qila kopet</p>
+        
+    </div>
+</div>
+
+<div id="surat" class="overlay">
+    <div class="letter">
+        <div class="close" onclick="closeAll()">❌</div>
+        <div id="typedText"></div>
+    </div>
+</div>
+
+<div id="game" class="overlay">
+    <div id="gameContent">
+        <div class="close" onclick="closeAll()">❌</div>
+
+        <div id="gameMenu">
+            <button onclick="mulaiGame()">MULAI</button>
+            <p>Tangkap Donutnya!</p>
+        </div>
+
+        <div id="gameBox">
+            </div>
+
+        <div id="resetBtn" style="display:none">
+            <button onclick="mulaiGame()">MULAI ULANG</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const startPage = document.getElementById("startPage")
+const menuPage = document.getElementById("menuPage")
+const bgm = document.getElementById("bgm")
+const yummy = document.getElementById("yummy")
+const ktp = document.getElementById("ktp")
+const surat = document.getElementById("surat")
+const game = document.getElementById("game")
+const typedText = document.getElementById("typedText")
+const gameBox = document.getElementById("gameBox")
+const gameMenu = document.getElementById("gameMenu")
+const resetBtn = document.getElementById("resetBtn")
+
+let gameIntervals = []; 
+let kapiElements = []; // Menyimpan semua elemen Kapibara/Teks
+
+function goMenu(){
+    startPage.classList.remove("active")
+    menuPage.classList.add("active")
+    bgm.volume = 0.4
+    bgm.play()
+}
+
+/* === MENU & OVERLAY CONTROLS === */
+function showKtp(){ ktp.classList.add("active") }
+
+function showLetter(){
+    surat.classList.add("active")
+    typedText.innerHTML = ""
+    const txt = `Selamat Hari Ayah Pak, hehehe. 
+	Andin minta maaf o masi banyak salahnya sama bapak, masi belum bisa mbanggain dan nyenegin bapak sampai sekarang.
+	Makasiii banyak bapak udah jadi bapak yang bertanggung jawab untuk andin dan qila.
+	Walaupun kadang nyebelin, bapak selalu peduli sama kakak dan adek, pas kakak nangis, bapak yg selalu nanyain "kakak kenapa".
+	Semoga bapak bisa terus sayangg dan peduli sama andin, qila dan ibu, selain itu.
+	Semoga bapak diberi umur yang panjang, sehat berkah barokah, rejeki dan uang yang melimpah serta bahagia dunia akhirat sama ibu, andin dan qila.
+	aamiiiinnnn... hehehe
+    -Ndoro Ayu Princess Andin`
+
+    let i=0
+    const typing = setInterval(()=>{
+        typedText.innerHTML += txt.charAt(i)
+        i++
+        if(i >= txt.length) clearInterval(typing)
+    },40)
+}
+
+function showGame(){ 
+    game.classList.add('active');
+    // Pastikan game dalam kondisi menu/reset saat dibuka
+    gameBox.style.display = 'none';
+    gameMenu.style.display = 'block';
+    resetBtn.style.display = 'none';
+    gameBox.innerHTML = ""; // Kosongkan kotak
+    clearGameIntervals();
+    kapiElements = []; // Kosongkan array elemen
+}
+
+function closeAll(){
+    ktp.classList.remove("active")
+    surat.classList.remove("active")
+    // Reset Game saat ditutup
+    if(game.classList.contains("active")){
+        clearGameIntervals();
+    }
+    game.classList.remove("active")
+}
+
+/* === GAME SYSTEM FIX === */
+function clearGameIntervals(){
+    gameIntervals.forEach(clearInterval);
+    gameIntervals = [];
+}
+
+function generateRandomPosition(element, boxWidth, boxHeight, isText) {
+    // Ukur elemen saat ini (penting untuk elemen teks)
+    const elementWidth = isText ? element.offsetWidth : 35; // Perkiraan ukuran emoji Kapibara
+    const elementHeight = isText ? element.offsetHeight : 35; 
+    
+    // Pastikan elemen tetap di dalam batas box
+    const maxLeft = boxWidth - elementWidth;
+    const maxTop = boxHeight - elementHeight;
+    
+    // Jika maxLeft/maxTop negatif (elemen lebih besar dari box), gunakan 0
+    const newLeft = Math.random() * Math.max(0, maxLeft);
+    const newTop = Math.random() * Math.max(0, maxTop);
+    const rotation = isText ? 0 : Math.random() * 360; // Teks tidak perlu rotasi
+
+    element.style.transform = `translate(${newLeft}px, ${newTop}px) rotate(${rotation}deg)`;
+}
+
+function mulaiGame(){
+    gameBox.innerHTML = ""
+    clearGameIntervals(); // Hentikan interval lama jika ada
+    kapiElements = [];
+    gameMenu.style.display="none" // Sembunyikan menu/tombol mulai
+    resetBtn.style.display="none"
+    gameBox.style.display = 'block'; // Tampilkan area game
+
+    const texts = [
+        "Selamat hari ayah pak",
+        "Sehat selalu Bapak",
+        "Bahagia Selalu Pakk",
+        "Kuranginn nyebelinn e pak wuu",
+        "Terima kasih pak",
+        "Sering-sering ajak andin jajan hehe",
+        "Jangan suka emosi (kata qila)",
+        "Mantapp",
+        "Jozzz",
+       
+    ]
+    const capybaraEmoji = "🍩" 
+    
+    let changed = 0
+    // Ambil dimensi Game Box setelah di set display:block
+    const boxWidth = gameBox.clientWidth; 
+    const boxHeight = gameBox.clientHeight;
+    
+
+    for(let i=0; i<10; i++){
+        let k = document.createElement("div")
+        k.className="kapi"
+        k.innerText=capybaraEmoji
+        k.style.left = "0px"; 
+        k.style.top = "0px";
+        k.isText = false; 
+
+        // Posisi dan rotasi awal Kapibara
+        generateRandomPosition(k, boxWidth, boxHeight, k.isText); 
+        kapiElements.push(k);
+        
+        // Interval pergerakan untuk setiap Kapibara
+        const intervalId = setInterval(()=>{
+            // Kapibara dan Teks bergerak, tetapi Teks tidak berotasi
+            generateRandomPosition(k, boxWidth, boxHeight, k.isText);
+        }, 1500 + Math.random() * 500); // Gerak setiap 1.5 - 2 detik
+        gameIntervals.push(intervalId);
+
+        k.onclick = function() {
+            if (!this.isText) { // Cek apakah elemen ini masih Kapibara
+                
+                // Ganti menjadi teks
+                this.innerText = texts[i]
+                this.isText = true;
+                this.classList.add('text'); 
+                
+                // HARUS DIPOSISIKAN ULANG setelah menjadi teks karena ukurannya berubah!
+                // Perlu sedikit delay agar browser sempat menghitung ukuran teks
+                setTimeout(() => {
+                    generateRandomPosition(this, boxWidth, boxHeight, this.isText);
+                }, 50);
+
+                this.style.cursor = 'default';
+                yummy.currentTime=0
+                yummy.play()
+                changed++
+
+                if(changed === 10){
+                    // Hentikan semua pergerakan (Interval)
+                    clearGameIntervals(); 
+                    
+                    // Tampilkan tombol reset setelah semua berubah
+                    resetBtn.style.display="block"
+                }
+            }
+        }
+        gameBox.appendChild(k)
+    }
+}
+</script>
+</body>
+</html>
